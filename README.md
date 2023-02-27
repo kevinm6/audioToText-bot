@@ -1,9 +1,17 @@
 # AudioToText-Bot
 
+> I just hate voice messages, this is the result.
+
+---
+
+## Requirements
+
+- `python` >= v3.9
+- `API_TOKEN` from BotFather [BotFather](t.me/BotFather)
+
 ---
 
 ## Usage
-
 ```bash
 # Open Terminal
 # Clone the repo
