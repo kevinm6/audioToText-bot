@@ -1,4 +1,4 @@
-bin
+bin/
 lib/
-voice_msgs/
 pyvenv.cfg
+token

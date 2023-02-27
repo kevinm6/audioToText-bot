@@ -1,3 +1,22 @@
+# ------------------------------
+# File          : transcriptBot.py
+# Author        : Kevin Manca (github.com/kevinm6)
+# Date          : 28/02/2023, 11:51
+# ------------------------------
+#
+# Description:
+# This is a simple Python Bot that aims to transcript voice messages
+# using GoogleAPI for audio recognition
+#
+# Requirements:
+#   - Token generate with BotFather (t.me/botfather)
+#   - Python >= 3
+#   - requirements.txt (`pip install -r requirements.txt`)
+#
+# Usage:
+#   - create a file named `token` and put in the same directory of this bot
+#   - run the bot with `python transcriptBot.py`
+
 import os
 # import logging
 # import datetime
@@ -10,28 +29,14 @@ from telegram.ext import (
         filters
 )
 
-API_TOKEN = ""
 idle = False
 
 # Disable logging for now
-# logfile = "./logs/" + str(datetime.date.today()) + ".log"
+# logfile = "/var/log/tg_bot/" + str(datetime.date.today()) + ".log"
 # logging.basicConfig(
         #         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
         #         )
 # logger = logging.getLogger(__name__)
-
-# async def audio_to_text(dest_name: str):
-#     # Function for translation of audio, in the format .vaw in the text.
-#     r = sr.Recognizer()
-#     # Read our .vaw file.
-#     message = sr.AudioFile(dest_name)
-#     with message as source:
-#         audio = r.record(source)
-#     result = r.recognize_google(audio, language="it_IT") # Here you can change the recognition language.
-#     return result
-
-# async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-#     await update.message.reply_text(update.message.text)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a message when the command /start is issued."""
@@ -67,16 +72,19 @@ async def transcript_voice_message(update: Update, context: ContextTypes.DEFAULT
 
             # file_info = context.bot.get_file(message.voice.file_id)
             # print ("file_id: " + str(message.voice.file_id))
+            dirPath = r"/tmp/telegram_bot/voice_msgs/"
+            if not os.path.exists(dirPath):
+                os.makedirs(dirPath)
 
             new_file = await context.bot.get_file(update.message.voice.file_id)
             # download the voice message as a file
             file_name=f"vmsg_{message.voice.file_unique_id}"
-            await new_file.download_to_drive(f"./voice_msgs/{file_name}.ogg")
+            await new_file.download_to_drive(f"{dirPath}/{file_name}.ogg")
 
-            AudioSegment.from_ogg(f"./voice_msgs/{file_name}.ogg").export(f"./voice_msgs/{file_name}.wav", format = 'wav')
+            AudioSegment.from_ogg(f"{dirPath}/{file_name}.ogg").export(f"{dirPath}/{file_name}.wav", format = 'wav')
             audio_recognizer = sr.Recognizer()
 
-            with sr.AudioFile(f"./voice_msgs/{file_name}.wav") as voice_wav:
+            with sr.AudioFile(f"{dirPath}/{file_name}.wav") as voice_wav:
                 audio_data = audio_recognizer.record(voice_wav)
 
                 # text result from Google
@@ -90,7 +98,7 @@ async def transcript_voice_message(update: Update, context: ContextTypes.DEFAULT
                                          reply_to_message_id = message.id)
 
             # remove files after send
-            files = [ f"./voice_msgs/{file_name}.ogg", f"./voice_msgs/{file_name}.wav" ]
+            files = [ f"{dirPath}/{file_name}.ogg", f"{dirPath}/{file_name}.wav" ]
             for file in files:
                 if os.path.isfile(file):
                     try:
@@ -116,12 +124,16 @@ async def transcript_voice_message(update: Update, context: ContextTypes.DEFAULT
             print(e)
 
             # with open(logfile, 'a', encoding='utf-8') as f:
-            #     f.write(str(datetime.datetime.today().strftime("%H:%M:%S")) + ':' + str(message.from_user.id) + ':' + str(message.from_user.first_name) + '_' + str(message.from_user.last_name) + ':' + str(message.from_user.username) +':'+ str(message.from_user.language_code) +':' + str(e) + '\n')
+            #     f.write(str(datetime.datetime.today().strftime("%H:%M:%S")) +
+            #      ':' + str(message.from_user.id) + ':' +
+            #      str(message.from_user.first_name) + '_' +
+            #      str(message.from_user.last_name) + ':' + str(message.from_user.username) +
+            #      ':'  str(message.from_user.language_code) +':' + str(e) + '\n')
 
 
 async def stop(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Send a message when the command /start is issued."""
     global idle
-    # """Send a message when the command /start is issued."""
     idle = True
     await update.message.reply_text(
             f"Stopped Bot!",
@@ -129,21 +141,21 @@ async def stop(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 def main():
-    # """Start the bot."""
+    """Start the bot."""
     # Create the Application and pass it your bot's token.
+    # If you don't have a token, generate it with BotFather (t.me/botfather)
+    with open("token") as t:
+        API_TOKEN = t.read().rstrip()
     application = Application.builder().token(API_TOKEN).build()
 
-    # on non command i.e message - echo the message on Telegram
-    # application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
-
-    # on different commands - answer in Telegram
+    # handle default commands - answer in Telegram
     application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("stop", stop))
 
-    application.add_handler(CommandHandler("help", help_command))
     application.add_handler(MessageHandler(filters.VOICE, transcript_voice_message))
 
-    # Run the loop-bot until <C-c>
+    # Run the bot-loop until <C-c>
     application.run_polling()
 
 if __name__ == '__main__':
