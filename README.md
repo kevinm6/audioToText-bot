@@ -2,8 +2,14 @@
 
 ---
 
-## Usage
+## Requirements
 
+- `python` >= v3.9
+- `API_TOKEN` from BotFather [BotFather](t.me/BotFather)
+
+---
+
+## Usage
 ```bash
 # Open Terminal
 # Clone the repo
