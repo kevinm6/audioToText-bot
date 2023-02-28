@@ -144,7 +144,7 @@ def main():
     """Start the bot."""
     # Create the Application and pass it your bot's token.
     # If you don't have a token, generate it with BotFather (t.me/botfather)
-    with open("token") as t:
+    with open("/Users/Kevin/dev/audioToText-bot/token") as t:
         API_TOKEN = t.read().rstrip()
     application = Application.builder().token(API_TOKEN).build()
 
