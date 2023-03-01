@@ -27,6 +27,7 @@ echo "<token_from_BotFather>" > token
 $(which python3) -m venv audioToText-bot
 cd audioToText-bot/
 source bin/activate
+pip install -r requirements.txt
 
 # and
 python transcriptBot.py # this start the bot (press <Ctrl+c> to stop it)
