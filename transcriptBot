@@ -1,6 +1,8 @@
+#!/Users/Kevin/dev/audioToText-bot/bin/python
 # ------------------------------
-# File          : transcriptBot.py
+# File          : transcriptBot
 # Author        : Kevin Manca (github.com/kevinm6)
+# Description   : python script for launchd daemon
 # Date          : 28/02/2023, 11:51
 # ------------------------------
 #
@@ -72,7 +74,7 @@ async def transcript_voice_message(update: Update, context: ContextTypes.DEFAULT
 
             # file_info = context.bot.get_file(message.voice.file_id)
             # print ("file_id: " + str(message.voice.file_id))
-            dirPath = r"/tmp/telegram_bot/voice_msgs/"
+            dirPath = f"/tmp/telegram_bot/voice_msgs/"
             if not os.path.exists(dirPath):
                 os.makedirs(dirPath)
 

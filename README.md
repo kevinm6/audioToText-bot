@@ -20,8 +20,9 @@ git clone https://github.com/kevinm6/audioToText-bot.git # or
 # ssh (this could require additional steps to generate ssh key)
 git clone git@github.com:kevinm6/audioToText-bot.git
 
-# Create file named `token` that stores it
-echo "<token_from_BotFather>" > token
+# Create env var `BOT_TOKEN` that stores it
+# the var label is the one that the script expects, so do not change it
+export BOT_TOKEN="<token_from_BotFather>"
 
 # After
 $(which python3) -m venv audioToText-bot
