@@ -7,7 +7,7 @@
 ## Requirements
 
 - `python` >= v3.9
-- `API_TOKEN` from BotFather [BotFather](t.me/BotFather)
+- `API_TOKEN` from [BotFather](t.me/BotFather)
 
 ---
 
@@ -27,8 +27,9 @@ export BOT_TOKEN="<token_from_BotFather>"
 # After
 $(which python3) -m venv audioToText-bot
 cd audioToText-bot/
+chmod +x transcriptBot
 source bin/activate
 
 # and
-python transcriptBot.py # this start the bot (press <Ctrl+c> to stop it)
+./transcriptBot # this start the bot (press <Ctrl+c> to stop it)
 ```

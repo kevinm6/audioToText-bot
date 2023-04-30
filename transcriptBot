@@ -1,4 +1,4 @@
-#!/Users/Kevin/dev/audioToText-bot/bin/python
+#!/usr/bin/env python3
 # ------------------------------
 # File          : transcriptBot
 # Author        : Kevin Manca (github.com/kevinm6)
@@ -146,7 +146,7 @@ def main():
     """Start the bot."""
     # Create the Application and pass it your bot's token.
     # If you don't have a token, generate it with BotFather (t.me/botfather)
-    BOT_TOKEN = os.environ.get('BOT_TOKEN') or ""
+    BOT_TOKEN = os.environ.get('BOT_TOKEN') or exit("-1: Token not valid.")
     application = Application.builder().token(BOT_TOKEN).build()
 
     # handle default commands - answer in Telegram
