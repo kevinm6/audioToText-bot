@@ -7,7 +7,7 @@
 ## Requirements
 
 - `python` >= v3.9
-- `API_TOKEN` from [BotFather](t.me/BotFather)
+- `API_TOKEN` from [BotFather](https://t.me/BotFather)
 
 ---
 
