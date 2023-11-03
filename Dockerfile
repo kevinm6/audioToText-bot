@@ -1,5 +1,4 @@
 FROM alpine:latest
-MAINTAINER kevin m
 
 # Bootstrap
 RUN apk -U upgrade

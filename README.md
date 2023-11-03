@@ -1,4 +1,9 @@
-# AudioToText-Bot
+<p align="center">
+   <img src="assets/icon_bot.png"/>
+</p>
+
+<h1 style="text-align:center;">AudioToText-Bot</h1>   
+
 
 > I just hate voice messages, this is the result.
 
@@ -32,4 +37,4 @@ source bin/activate
 
 # and
 ./transcriptBot # this start the bot (press <Ctrl+c> to stop it)
-```
+
